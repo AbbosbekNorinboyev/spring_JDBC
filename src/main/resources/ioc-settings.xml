@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:url="jdbc:postgresql://localhost:5432/spring_data"
+          p:username="postgres"
+          p:password="2210"
+          p:driverClassName="org.postgresql.Driver"
+          p:schema="lesson6_modul8"
+    />
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="dataSource"
+    />
+
+    <bean id="todoDao" class="uz.pdp.task1.jdbc_template.TodoDao"
+          c:jdbcTemplate-ref="jdbcTemplate"
+    />
+
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
+          c:dataSource-ref="dataSource"
+    />
+
+    <bean id="todoDAO" class="uz.pdp.task3.named_parameter_jdbc_template.TodoDAO"
+          c:namedParameterJdbcTemplate-ref="namedParameterJdbcTemplate"
+    />
+
+    <bean id="simpleJdbcCall" class="org.springframework.jdbc.core.simple.SimpleJdbcCall">
+        <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="todoDao2" class="uz.pdp.task4.simple_jdbc_call.TodoDao2"
+          c:simpleJdbcCall-ref="simpleJdbcCall"
+    />
+</beans>
